@@ -103,6 +103,11 @@ async function seedRevenue() {
 
 export async function GET() {
   try {
+    await sql`
+      TRUNCATE TABLE invoices, customers, users, revenue
+      RESTART IDENTITY CASCADE;
+    `;
+
     const result = await sql.begin((sql) => [
       seedUsers(),
       seedCustomers(),
